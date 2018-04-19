@@ -1,0 +1,5 @@
+Questions
+
+Fundamentals.sln Fundamentals project cant remove it from repo
+
+unit tests metodite mogat li da priemat paramentri

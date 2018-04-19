@@ -1,0 +1,11 @@
+Unit tests
+
+Component 
+Integration
+Penetration - XSScripting, SQL Injection
+
+Arrange
+Act 
+Assert
+
+Edin class za edin metod. Ideqta e clasovete da sa po-malki
