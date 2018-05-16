@@ -2,3 +2,9 @@ Questions
 
 unit tests metodite mogat li da priemat paramentri - ne (default MS unit tests)
 
+
+Sled kato ne6to e testvano (LinkedListNode) To ne trqbva da se testva ako e chast ot drug proekt??
+
+Kak se opravq iztri proekt v visual studio - delete key
+
+implicit type convertion
