@@ -1,0 +1,10 @@
+Tables in DB
+
+Empty project
+
+Updating packs
+
+3+ projects for models services and app
+
+Services + Interfaces (Login =>)
+Managers 

@@ -2,6 +2,17 @@ Global.asax === Main()
 
 -how does post save the body (security)
 -bcrypt
+- Encrypt
+- Hashing
 
+- Unit of work
+- HTTP / HTTPS
+- Session
+- OAuth , WAuth
+
+JS Callbacks
+
+
+// movies
 cabin in the woods
 mirros 1,2
