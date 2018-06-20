@@ -1,0 +1,42 @@
+﻿using Network.ActivationFunctions;
+using Network.Factories;
+using Network.InputFunctions;
+
+namespace Network
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var network = new SimpleNeuralNetwork(2);
+
+            var layerFactory = new NeuralLayerFactory();
+            network.AddLayer(layerFactory.CreateNeuralLayer(3, new SigmoidActivationFunction(0.7), new WeightedSumFunction()));
+            network.AddLayer(layerFactory.CreateNeuralLayer(1, new SigmoidActivationFunction(0.7), new WeightedSumFunction()));
+
+            network.PushExpectedValues(
+                new double[][] {
+                new double[] { 0 },
+                new double[] { 1 },
+                new double[] { 1 },
+                new double[] { 1 },
+                });
+
+            network.Train(
+                new double[][] {
+                new double[] { 0, 0},
+                new double[] { 0, 1},
+                new double[] { 1, 0},
+                new double[] { 1, 1},
+                }, 10000);
+
+            network.PushInputValues(new double[] { 1, 1 });
+            var outputs = network.GetOutput();
+
+            foreach (var output in outputs)
+            {
+                System.Console.WriteLine(output);
+            }
+        }
+    }
+}
