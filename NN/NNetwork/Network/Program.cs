@@ -1,6 +1,5 @@
 ﻿using Network.ActivationFunctions;
 using Network.Factories;
-using Network.InputFunctions;
 
 namespace Network
 {
@@ -11,8 +10,8 @@ namespace Network
             var network = new SimpleNeuralNetwork(2);
 
             var layerFactory = new NeuralLayerFactory();
-            network.AddLayer(layerFactory.CreateNeuralLayer(3, new SigmoidActivationFunction(0.7), new WeightedSumFunction()));
-            network.AddLayer(layerFactory.CreateNeuralLayer(1, new SigmoidActivationFunction(0.7), new WeightedSumFunction()));
+            network.AddLayer(layerFactory.CreateNeuralLayer(3, new SigmoidActivationFunction(0.7)));
+            network.AddLayer(layerFactory.CreateNeuralLayer(1, new SigmoidActivationFunction(0.7)));
 
             network.PushExpectedValues(
                 new double[][] {

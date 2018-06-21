@@ -57,10 +57,12 @@
     <Compile Include="SimpleNeuralNetwork.cs" />
     <Compile Include="ActivationFunctions\StepActivationFunction.cs" />
     <Compile Include="Synapses\Synapse.cs" />
-    <Compile Include="InputFunctions\WeightedSumFunction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="InputFunctions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

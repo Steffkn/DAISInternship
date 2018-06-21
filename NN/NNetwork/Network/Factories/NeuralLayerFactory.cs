@@ -9,13 +9,13 @@
     /// </summary>
     public class NeuralLayerFactory
     {
-        public NeuralLayer CreateNeuralLayer(int numberOfNeurons, IActivationFunction activationFunction, IInputFunction inputFunction)
+        public NeuralLayer CreateNeuralLayer(int numberOfNeurons, IActivationFunction activationFunction)
         {
             var layer = new NeuralLayer();
 
             for (int i = 0; i < numberOfNeurons; i++)
             {
-                var neuron = new Neuron(activationFunction, inputFunction);
+                var neuron = new Neuron(activationFunction);
                 layer.Neurons.Add(neuron);
             }
 

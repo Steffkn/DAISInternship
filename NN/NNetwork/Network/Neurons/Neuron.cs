@@ -9,7 +9,6 @@
     public class Neuron : INeuron
     {
         private IActivationFunction _activationFunction;
-        private IInputFunction _inputFunction;
 
         /// <summary>
         /// Input connections of the neuron.
@@ -28,14 +27,13 @@
         /// </summary>
         public double PreviousPartialDerivate { get; set; }
 
-        public Neuron(IActivationFunction activationFunction, IInputFunction inputFunction)
+        public Neuron(IActivationFunction activationFunction)
         {
             Id = Guid.NewGuid();
             Inputs = new List<ISynapse>();
             Outputs = new List<ISynapse>();
 
             _activationFunction = activationFunction;
-            _inputFunction = inputFunction;
         }
 
         /// <summary>
@@ -72,7 +70,7 @@
         /// </returns>
         public double CalculateOutput()
         {
-            return _activationFunction.CalculateOutput(_inputFunction.CalculateInput(this.Inputs));
+            return _activationFunction.CalculateOutput(this.Inputs.Select(x => x.Weight * x.GetOutput()).Sum());
         }
 
         /// <summary>

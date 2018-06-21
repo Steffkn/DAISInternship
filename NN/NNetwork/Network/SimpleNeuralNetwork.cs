@@ -5,7 +5,6 @@
     using System.Linq;
     using Network.ActivationFunctions;
     using Network.Factories;
-    using Network.InputFunctions;
     using Network.Layers;
 
     public class SimpleNeuralNetwork
@@ -54,8 +53,7 @@
         /// </summary>
         public void PushInputValues(double[] inputs)
         {
-            layers.First().Neurons.ForEach(x => x.PushValueOnInput
-                           (inputs[layers.First().Neurons.IndexOf(x)]));
+            layers.First().Neurons.ForEach(x => x.PushValueOnInput(inputs[layers.First().Neurons.IndexOf(x)]));
         }
 
         /// <summary>
@@ -100,10 +98,10 @@
                     var outputs = new List<double>();
 
                     // Get outputs.
-                    layers.Last().Neurons.ForEach(x =>
+                    foreach (var x in layers.Last().Neurons)
                     {
                         outputs.Add(x.CalculateOutput());
-                    });
+                    }
 
                     // Calculate error by summing errors on all output neurons.
                     totalError = CalculateTotalError(outputs, j);
@@ -118,8 +116,12 @@
         /// </summary>
         private void CreateInputLayer(int numberOfInputNeurons)
         {
-            var inputLayer = layerFactory.CreateNeuralLayer(numberOfInputNeurons, new RectifiedActivationFuncion(), new WeightedSumFunction());
-            inputLayer.Neurons.ForEach(x => x.AddInputSynapse(0));
+            // TODO: Mix these 2 lines. eliminate the foreach
+            var inputLayer = layerFactory.CreateNeuralLayer(numberOfInputNeurons, new RectifiedActivationFuncion());
+            foreach (var x in inputLayer.Neurons)
+            {
+                x.AddInputSynapse(0);
+            }
             this.AddLayer(inputLayer);
         }
 
@@ -129,12 +131,10 @@
         private double CalculateTotalError(List<double> outputs, int row)
         {
             double totalError = 0;
-
-            outputs.ForEach(output =>
+            foreach (var output in outputs)
             {
-                var error = Math.Pow(output - expectedResult[row][outputs.IndexOf(output)], 2);
-                totalError += error;
-            });
+                totalError += Math.Pow(output - expectedResult[row][outputs.IndexOf(output)], 2);
+            }
 
             return totalError;
         }
@@ -147,9 +147,10 @@
         /// </param>
         private void HandleOutputLayer(int row)
         {
-            layers.Last().Neurons.ForEach(neuron =>
+            var lastLayerNeurons = layers.Last().Neurons;
+            foreach (var neuron in lastLayerNeurons)
             {
-                neuron.Inputs.ForEach(connection =>
+                foreach (var connection in neuron.Inputs)
                 {
                     var output = neuron.CalculateOutput();
                     var netInput = connection.GetOutput();
@@ -162,8 +163,8 @@
                     connection.UpdateWeight(learningRate, delta);
 
                     neuron.PreviousPartialDerivate = nodeDelta;
-                });
-            });
+                }
+            }
         }
 
         /// <summary>
@@ -176,30 +177,27 @@
         {
             for (int k = layers.Count - 2; k > 0; k--)
             {
-                layers[k].Neurons.ForEach(neuron =>
+                foreach (var neuron in layers[k].Neurons)
                 {
-                    neuron.Inputs.ForEach(connection =>
+                    foreach (var connection in neuron.Inputs)
                     {
                         var output = neuron.CalculateOutput();
                         var netInput = connection.GetOutput();
                         double sumPartial = 0;
 
-                        layers[k + 1].Neurons
-                        .ForEach(outputNeuron =>
+                        foreach (var outputNeuron in layers[k + 1].Neurons)
                         {
-                            outputNeuron.Inputs.Where(i => i.IsFromNeuron(neuron.Id))
-                            .ToList()
-                            .ForEach(outConnection =>
+                            var outConnections = outputNeuron.Inputs.Where(i => i.IsFromNeuron(neuron.Id)).ToList();
+                            foreach (var outConnection in outConnections)
                             {
-                                sumPartial += outConnection.PreviousWeight *
-                                                    outputNeuron.PreviousPartialDerivate;
-                            });
-                        });
+                                sumPartial += outConnection.PreviousWeight * outputNeuron.PreviousPartialDerivate;
+                            }
+                        }
 
                         var delta = -1 * netInput * sumPartial * output * (1 - output);
                         connection.UpdateWeight(learningRate, delta);
-                    });
-                });
+                    }
+                }
             }
         }
     }
