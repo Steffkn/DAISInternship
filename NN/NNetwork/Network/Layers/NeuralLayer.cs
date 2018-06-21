@@ -10,7 +10,7 @@
 
         public NeuralLayer()
         {
-            Neurons = new List<INeuron>();
+            this.Neurons = new List<INeuron>();
         }
 
         /// <summary>
@@ -18,9 +18,12 @@
         /// </summary>
         public void ConnectLayers(NeuralLayer inputLayer)
         {
-            var combos = Neurons.SelectMany(neuron => inputLayer.Neurons,
-            (neuron, input) => new { neuron, input });
-            combos.ToList().ForEach(x => x.neuron.AddInputNeuron(x.input));
+            var combos = this.Neurons.SelectMany(neuron => inputLayer.Neurons, (neuron, input) => new { neuron, input });
+
+            foreach (var combo in combos.ToList())
+            {
+                combo.neuron.AddInputNeuron(combo.input);
+            }
         }
     }
 }

@@ -8,35 +8,29 @@
         internal INeuron _fromNeuron;
         internal INeuron _toNeuron;
 
-        /// <summary>
-        /// Weight of the connection.
-        /// </summary>
-        public double Weight { get; set; }
-
-        /// <summary>
-        /// Weight that connection had in previous itteration.
-        /// Used in training process.
-        /// </summary>
-        public double PreviousWeight { get; set; }
-
         public Synapse(INeuron fromNeuraon, INeuron toNeuron, double weight)
         {
-            _fromNeuron = fromNeuraon;
-            _toNeuron = toNeuron;
+            this._fromNeuron = fromNeuraon;
+            this._toNeuron = toNeuron;
 
-            Weight = weight;
-            PreviousWeight = 0;
+            this.Weight = weight;
+            this.PreviousWeight = 0;
         }
 
         public Synapse(INeuron fromNeuraon, INeuron toNeuron)
         {
-            _fromNeuron = fromNeuraon;
-            _toNeuron = toNeuron;
+            this._fromNeuron = fromNeuraon;
+            this._toNeuron = toNeuron;
 
             var tmpRandom = new Random();
-            Weight = tmpRandom.NextDouble();
-            PreviousWeight = 0;
+            this.Weight = tmpRandom.NextDouble();
+            this.PreviousWeight = 0;
         }
+
+        /// <summary>
+        /// Weight of the connection.
+        /// </summary>
+        public double Weight { get; set; }
 
         /// <summary>
         /// Get output value of the connection.
@@ -44,10 +38,13 @@
         /// <returns>
         /// Output value of the connection.
         /// </returns>
-        public double GetOutput()
-        {
-            return _fromNeuron.CalculateOutput();
-        }
+        public double Output { get { return this._fromNeuron.CalculateOutput(); } }
+
+        /// <summary>
+        /// Weight that connection had in previous itteration.
+        /// Used in training process.
+        /// </summary>
+        public double PreviousWeight { get; set; }
 
         /// <summary>
         /// Checks if Neuron has a certain number as an input neuron.
@@ -59,7 +56,7 @@
         /// </returns>
         public bool IsFromNeuron(Guid fromNeuronId)
         {
-            return _fromNeuron.Id.Equals(fromNeuronId);
+            return this._fromNeuron.Id.Equals(fromNeuronId);
         }
 
         /// <summary>
@@ -70,8 +67,8 @@
         /// of the connection needs to be modified.</param>
         public void UpdateWeight(double learningRate, double delta)
         {
-            PreviousWeight = Weight;
-            Weight += learningRate * delta;
+            this.PreviousWeight = Weight;
+            this.Weight += learningRate * delta;
         }
     }
 }

@@ -10,6 +10,15 @@
     {
         private IActivationFunction _activationFunction;
 
+        public Neuron(IActivationFunction activationFunction)
+        {
+            this.Id = Guid.NewGuid();
+            this.Inputs = new List<ISynapse>();
+            this.Outputs = new List<ISynapse>();
+
+            _activationFunction = activationFunction;
+        }
+
         /// <summary>
         /// Input connections of the neuron.
         /// </summary>
@@ -27,15 +36,6 @@
         /// </summary>
         public double PreviousPartialDerivate { get; set; }
 
-        public Neuron(IActivationFunction activationFunction)
-        {
-            Id = Guid.NewGuid();
-            Inputs = new List<ISynapse>();
-            Outputs = new List<ISynapse>();
-
-            _activationFunction = activationFunction;
-        }
-
         /// <summary>
         /// Connect two neurons. 
         /// This neuron is the output neuron of the connection.
@@ -45,7 +45,7 @@
         public void AddInputNeuron(INeuron inputNeuron)
         {
             var synapse = new Synapse(inputNeuron, this);
-            Inputs.Add(synapse);
+            this.Inputs.Add(synapse);
             inputNeuron.Outputs.Add(synapse);
         }
 
@@ -58,7 +58,7 @@
         public void AddOutputNeuron(INeuron outputNeuron)
         {
             var synapse = new Synapse(this, outputNeuron);
-            Outputs.Add(synapse);
+            this.Outputs.Add(synapse);
             outputNeuron.Inputs.Add(synapse);
         }
 
@@ -70,7 +70,14 @@
         /// </returns>
         public double CalculateOutput()
         {
-            return _activationFunction.CalculateOutput(this.Inputs.Select(x => x.Weight * x.GetOutput()).Sum());
+            double inputSum = 0;
+            foreach (var synapse in this.Inputs)
+            {
+                inputSum += synapse.Weight * synapse.Output;
+            }
+
+            // Scale the output
+            return _activationFunction.CalculateOutput(inputSum);
         }
 
         /// <summary>
@@ -84,7 +91,7 @@
         public void AddInputSynapse(double inputValue)
         {
             var inputSynapse = new InputSynapse(this, inputValue);
-            Inputs.Add(inputSynapse);
+            this.Inputs.Add(inputSynapse);
         }
 
         /// <summary>
@@ -95,7 +102,7 @@
         /// </param>
         public void PushValueOnInput(double inputValue)
         {
-            ((InputSynapse)Inputs.First()).Output = inputValue;
+            ((InputSynapse)this.Inputs.First()).Output = inputValue;
         }
     }
 }

@@ -7,9 +7,19 @@ namespace Network
     {
         public static void Main(string[] args)
         {
-            var network = new SimpleNeuralNetwork(2);
+            var numberOfInputNeurons = 2;
+            var network = new SimpleNeuralNetwork(numberOfInputNeurons);
 
             var layerFactory = new NeuralLayerFactory();
+
+            // TODO: Mix these 2 lines. eliminate the foreach
+            var inputLayer = layerFactory.CreateNeuralLayer(numberOfInputNeurons, new RectifiedActivationFuncion());
+            foreach (var x in inputLayer.Neurons)
+            {
+                x.AddInputSynapse(0);
+            }
+
+            network.AddLayer(inputLayer);
             network.AddLayer(layerFactory.CreateNeuralLayer(3, new SigmoidActivationFunction(0.7)));
             network.AddLayer(layerFactory.CreateNeuralLayer(1, new SigmoidActivationFunction(0.7)));
 

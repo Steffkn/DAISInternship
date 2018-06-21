@@ -28,7 +28,7 @@
             layerFactory = new NeuralLayerFactory();
 
             // Create input layer that will collect inputs.
-            CreateInputLayer(numberOfInputNeurons);
+
 
             learningRate = 2.95;
         }
@@ -53,7 +53,10 @@
         /// </summary>
         public void PushInputValues(double[] inputs)
         {
-            layers.First().Neurons.ForEach(x => x.PushValueOnInput(inputs[layers.First().Neurons.IndexOf(x)]));
+            foreach (var neuron in layers.First().Neurons)
+            {
+                neuron.PushValueOnInput(inputs[layers.First().Neurons.IndexOf(neuron)]);
+            }
         }
 
         /// <summary>
@@ -71,11 +74,11 @@
         public List<double> GetOutput()
         {
             var returnValue = new List<double>();
-
-            layers.Last().Neurons.ForEach(neuron =>
+            foreach (var neuron in layers.Last().Neurons)
             {
                 returnValue.Add(neuron.CalculateOutput());
-            });
+
+            }
 
             return returnValue;
         }
@@ -98,9 +101,9 @@
                     var outputs = new List<double>();
 
                     // Get outputs.
-                    foreach (var x in layers.Last().Neurons)
+                    foreach (var neuron in layers.Last().Neurons)
                     {
-                        outputs.Add(x.CalculateOutput());
+                        outputs.Add(neuron.CalculateOutput());
                     }
 
                     // Calculate error by summing errors on all output neurons.
@@ -109,20 +112,6 @@
                     HandleHiddenLayers();
                 }
             }
-        }
-
-        /// <summary>
-        /// Helper function that creates input layer of the neural network.
-        /// </summary>
-        private void CreateInputLayer(int numberOfInputNeurons)
-        {
-            // TODO: Mix these 2 lines. eliminate the foreach
-            var inputLayer = layerFactory.CreateNeuralLayer(numberOfInputNeurons, new RectifiedActivationFuncion());
-            foreach (var x in inputLayer.Neurons)
-            {
-                x.AddInputSynapse(0);
-            }
-            this.AddLayer(inputLayer);
         }
 
         /// <summary>
@@ -153,7 +142,7 @@
                 foreach (var connection in neuron.Inputs)
                 {
                     var output = neuron.CalculateOutput();
-                    var netInput = connection.GetOutput();
+                    var netInput = connection.Output;
 
                     var expectedOutput = expectedResult[row][layers.Last().Neurons.IndexOf(neuron)];
 
@@ -182,7 +171,7 @@
                     foreach (var connection in neuron.Inputs)
                     {
                         var output = neuron.CalculateOutput();
-                        var netInput = connection.GetOutput();
+                        var netInput = connection.Output;
                         double sumPartial = 0;
 
                         foreach (var outputNeuron in layers[k + 1].Neurons)

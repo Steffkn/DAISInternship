@@ -4,11 +4,11 @@
 
     public interface ISynapse
     {
-        double Weight { get; set; }
+        double Weight { get; }
 
-        double PreviousWeight { get; set; }
+        double Output { get; }
 
-        double GetOutput();
+        double PreviousWeight { get; }
 
         bool IsFromNeuron(Guid fromNeuronId);
 
