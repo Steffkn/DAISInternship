@@ -9,7 +9,7 @@
 
     public class SimpleNeuralNetwork
     {
-        private NeuralLayerFactory layerFactory;
+        private readonly NeuralLayerFactory layerFactory;
 
         internal List<NeuralLayer> layers;
         internal double learningRate;
@@ -24,13 +24,9 @@
         /// </param>
         public SimpleNeuralNetwork(int numberOfInputNeurons)
         {
-            layers = new List<NeuralLayer>();
-            layerFactory = new NeuralLayerFactory();
-
-            // Create input layer that will collect inputs.
-
-
-            learningRate = 2.95;
+            this.layers = new List<NeuralLayer>();
+            this.layerFactory = new NeuralLayerFactory();
+            this.learningRate = 2.95;
         }
 
         /// <summary>
@@ -168,10 +164,10 @@
             {
                 foreach (var neuron in layers[k].Neurons)
                 {
-                    foreach (var connection in neuron.Inputs)
+                    foreach (var synapse in neuron.Inputs)
                     {
                         var output = neuron.CalculateOutput();
-                        var netInput = connection.Output;
+                        var netInput = synapse.Output;
                         double sumPartial = 0;
 
                         foreach (var outputNeuron in layers[k + 1].Neurons)
@@ -184,7 +180,7 @@
                         }
 
                         var delta = -1 * netInput * sumPartial * output * (1 - output);
-                        connection.UpdateWeight(learningRate, delta);
+                        synapse.UpdateWeight(learningRate, delta);
                     }
                 }
             }
