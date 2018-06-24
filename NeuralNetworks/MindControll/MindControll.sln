@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brain", "Brain\Brain.csproj", "{CB42B7CD-44C8-464E-9986-DD51D5A75CC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayGround", "PlayGround\PlayGround.csproj", "{AE434B0E-795B-4785-98B6-0E802BC2D03F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB42B7CD-44C8-464E-9986-DD51D5A75CC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB42B7CD-44C8-464E-9986-DD51D5A75CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB42B7CD-44C8-464E-9986-DD51D5A75CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB42B7CD-44C8-464E-9986-DD51D5A75CC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE434B0E-795B-4785-98B6-0E802BC2D03F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE434B0E-795B-4785-98B6-0E802BC2D03F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE434B0E-795B-4785-98B6-0E802BC2D03F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE434B0E-795B-4785-98B6-0E802BC2D03F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {18651F2F-7480-417F-9AD7-E72FFF033AA9}
+	EndGlobalSection
+EndGlobal
