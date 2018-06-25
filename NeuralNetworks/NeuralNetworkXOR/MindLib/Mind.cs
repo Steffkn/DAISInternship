@@ -10,9 +10,9 @@
 
         public const double Learning_Rate = 0.1;
 
-        public static List<Neuron> Neurons { get; set; } = new List<Neuron>();
+        public static List<List<Neuron>> Neurons { get; set; } = new List<List<Neuron>>();
 
-        public static List<Synapse> Synapses { get; set; } = new List<Synapse>();
+        public static List<List<Synapse>> Synapses { get; set; } = new List<List<Synapse>>();
 
         public static int[,] Inputs { get; set; }
 
@@ -69,15 +69,18 @@
 
         public static void ForwardPropagation(double[][] weights, int[] input)
         {
-            for (int net = 1; net < Mind.Neurons.Count; net++)
+            for (int i = 1; i < Mind.Neurons.Count; i++)
             {
-                Mind.Neurons[net].NetSum = 0;
-                for (int index = 0; index < input.Length; index++)
+                for (int net = 0; net < Mind.Neurons[i].Count; net++)
                 {
-                    Mind.Neurons[net].NetSum += input[index] * weights[index][net - 1];
-                }
+                    Mind.Neurons[net].NetSum = 0;
+                    for (int index = 0; index < input.Length; index++)
+                    {
+                        Mind.Neurons[net].NetSum += input[index] * weights[index][net - 1];
+                    }
 
-                Mind.Neurons[net].NeuronSum = Mind.Activation(Mind.Neurons[net].NetSum);
+                    Mind.Neurons[net].NeuronSum = Mind.Activation(Mind.Neurons[net].NetSum);
+                }
             }
 
             // output neuron is index 0
