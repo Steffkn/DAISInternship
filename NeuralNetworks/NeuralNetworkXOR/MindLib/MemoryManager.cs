@@ -59,15 +59,6 @@ namespace MindLib
                         sb.AppendLine();
                     }
 
-                    //for (int i = 0; i < Mind.Outputs.Length - 1; i++)
-                    //{
-                    //    sb.Append($"{Mind.Outputs[i]} ");
-                    //}
-
-                    //sb.Append($"{Mind.Outputs[Mind.Outputs.Length - 1]}");
-                    //sb.AppendLine();
-
-
                     for (int x = 0; x < weights.GetLength(0); x++)
                     {
                         for (int y = 0; y < weights[x].GetLength(0) - 1; y++)

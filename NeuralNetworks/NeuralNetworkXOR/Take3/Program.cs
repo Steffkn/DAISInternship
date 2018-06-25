@@ -99,6 +99,7 @@ namespace Take3
                     deltaWeights[0][0] = input[0] * hidden_errorDelta1;
                     deltaWeights[0][1] = input[0] * hidden_errorDelta2;
                     deltaWeights[0][2] = input[0] * hidden_errorDelta3;
+
                     deltaWeights[0][3] = input[1] * hidden_errorDelta1;
                     deltaWeights[0][4] = input[1] * hidden_errorDelta2;
                     deltaWeights[0][5] = input[1] * hidden_errorDelta3;

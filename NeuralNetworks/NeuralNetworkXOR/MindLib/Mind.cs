@@ -73,51 +73,73 @@
             {
                 for (int net = 0; net < Mind.Neurons[i].Count; net++)
                 {
-                    Mind.Neurons[net].NetSum = 0;
-                    for (int index = 0; index < input.Length; index++)
+                    Mind.Neurons[i][net].NetSum = 0;
+                    for (int index = 0; index < Mind.Neurons[i - 1].Count; index++)
                     {
-                        Mind.Neurons[net].NetSum += input[index] * weights[index][net - 1];
+                        Mind.Neurons[i][net].NetSum += Mind.Neurons[i - 1][index].NeuronSum * weights[index][i - 1];
                     }
 
-                    Mind.Neurons[net].NeuronSum = Mind.Activation(Mind.Neurons[net].NetSum);
+                    Mind.Neurons[i][net].NeuronSum = Mind.Activation(Mind.Neurons[i][net].NetSum);
                 }
             }
 
             // output neuron is index 0
-            Mind.Neurons[0].NetSum = 0;
-            for (int neuronIndex = 1; neuronIndex < Mind.Neurons.Count; neuronIndex++)
+            for (int i = 0; i < Mind.Neurons[0].Count; i++)
             {
-                Mind.Neurons[0].NetSum += Mind.Neurons[neuronIndex].NeuronSum * weights[neuronIndex + 1][0];
+                Mind.Neurons[0][i].NetSum = 0;
+                for (int neuronIndex = 0; neuronIndex < Mind.Neurons[1].Count; neuronIndex++)
+                {
+                    Mind.Neurons[0][i].NetSum += Mind.Neurons[1][neuronIndex].NeuronSum * weights[neuronIndex + 1][0];
+                }
+
+                Mind.Neurons[0][i].NeuronSum = Mind.Activation(Mind.Neurons[0][i].NetSum);
             }
 
-            Mind.Neurons[0].NeuronSum = Mind.Activation(Mind.Neurons[0].NetSum);
+            //Mind.Neurons[0][net].NetSum = 0;
+            //for (int neuronIndex = 1; neuronIndex < Mind.Neurons.Count; neuronIndex++)
+            //{
+            //    Mind.Neurons[0][net].NetSum += Mind.Neurons[neuronIndex].NeuronSum * weights[neuronIndex + 1][0];
+            //}
+
+            //Mind.Neurons[0].NeuronSum = Mind.Activation(Mind.Neurons[0].NetSum);
         }
 
         public static void BackwardPropagation(int target, double[][] weights, double[][] deltaWeights, int[] input)
         {
             // output errors
-            Mind.Neurons[0].TotalErrors = Mind.Outputs[target, 0] - Mind.Neurons[0].NeuronSum;
-            Mind.Neurons[0].DeltaErrors = Mind.Neurons[0].TotalErrors * Mind.Derivative(Mind.Neurons[0].NeuronSum);
+            // output neuron is index 0
+            for (int i = 0; i < Mind.Neurons[0].Count; i++)
+            {
+                Mind.Neurons[0][i].TotalErrors = Mind.Outputs[target, i] - Mind.Neurons[0][i].NeuronSum;
+                Mind.Neurons[0][i].DeltaErrors = Mind.Neurons[0][i].TotalErrors * Mind.Derivative(Mind.Neurons[0][i].NeuronSum);
+            }
 
             // hidden errors
             for (int error = 1; error < Mind.Neurons.Count; error++)
             {
-                Mind.Neurons[error].TotalErrors = Mind.Neurons[0].TotalErrors * weights[error + 1][0] * Mind.Derivative(Mind.Neurons[error].NeuronSum);
-                Mind.Neurons[error].DeltaErrors = Mind.Neurons[error].TotalErrors * Mind.Derivative(Mind.Neurons[error].NeuronSum);
+                for (int i = 0; i < Mind.Neurons[error].Count; i++)
+                {
+                    // TODO: may have errors with more layers
+                    var derivative = Mind.Derivative(Mind.Neurons[error][i].NeuronSum);
+                    var prevError = Mind.Neurons[error - 1][0].TotalErrors;
+                    Mind.Neurons[error][i].TotalErrors = prevError * weights[error - 1][0] * derivative;
+                    Mind.Neurons[error][i].DeltaErrors = Mind.Neurons[error][i].TotalErrors * derivative;
+                }
             }
 
             // number of neurons till output 2
+            // TODO: to here
             for (int x = 0; x < 2; x++)
             {
                 for (int y = 0; y < deltaWeights[x].Length; y++)
                 {
-                    deltaWeights[x][y] = input[x] * Mind.Neurons[y + 1].DeltaErrors;
+                    //deltaWeights[x][y] = input[x] * Mind.Neurons[y + 1].DeltaErrors;
                 }
             }
 
-            deltaWeights[2][0] = Mind.Neurons[1].NeuronSum * Mind.Neurons[0].DeltaErrors;
-            deltaWeights[3][0] = Mind.Neurons[2].NeuronSum * Mind.Neurons[0].DeltaErrors;
-            deltaWeights[4][0] = Mind.Neurons[3].NeuronSum * Mind.Neurons[0].DeltaErrors;
+            //deltaWeights[2][0] = Mind.Neurons[1].NeuronSum * Mind.Neurons[0].DeltaErrors;
+            //deltaWeights[3][0] = Mind.Neurons[2].NeuronSum * Mind.Neurons[0].DeltaErrors;
+            //deltaWeights[4][0] = Mind.Neurons[3].NeuronSum * Mind.Neurons[0].DeltaErrors;
 
             CalculateNewWeights(weights, deltaWeights);
         }

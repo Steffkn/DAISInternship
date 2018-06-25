@@ -6,6 +6,7 @@ namespace NeuralNetworkXORTake2
 {
     using MindLib;
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Text;
 
@@ -51,9 +52,29 @@ namespace NeuralNetworkXORTake2
             int numberOfinputNeurons = Mind.Inputs.GetLength(1);
             int numberOfoutputNeurons = Mind.Outputs.GetLength(1);
             int numberOfhiddenNeurons = 3;
+            int numberOfLayers = 1;
+
+            Mind.Neurons.Add(new List<Neuron>());
+
+            // add one more for inputs maybe?
+            // outputs at index 0
+            for (int i = 0; i < numberOfoutputNeurons; i++)
+            {
+                Mind.Neurons[0].Add(new Neuron());
+            }
+
+            // hiddne layers after 1 index
+            for (int layerIndex = 0; layerIndex < numberOfLayers; layerIndex++)
+            {
+                Mind.Neurons.Add(new List<Neuron>());
+                for (int i = 0; i < numberOfhiddenNeurons; i++)
+                {
+                    Mind.Neurons[layerIndex + 1].Add(new Neuron());
+                }
+            }
 
             // +1 for the output
-            int weightRows = Mind.Inputs.GetLength(0) + 1;
+            int weightRows = numberOfhiddenNeurons + 1;
 
             double[][] weights = new double[weightRows][];
             double[][] deltaWeights = new double[weightRows][];
@@ -72,12 +93,6 @@ namespace NeuralNetworkXORTake2
             for (int x = 0; x < weights.GetLength(0); x++)
             {
                 deltaWeights[x] = new double[weights[x].Length];
-            }
-
-            // add one more for inputs maybe?
-            for (int i = 0; i < numberOfhiddenNeurons + numberOfoutputNeurons; i++)
-            {
-                Mind.Neurons.Add(new Neuron());
             }
 
             while (true)
@@ -102,8 +117,11 @@ namespace NeuralNetworkXORTake2
             // forward propagation
             Mind.ForwardPropagation(weights, input);
 
-            Console.WriteLine(" ===== Error: {0:F6}", Mind.Neurons[0].DeltaErrors);
-            Console.WriteLine(" ===== Output: {0:F6}", Mind.Neurons[0].NeuronSum);
+            foreach (var neuron in Mind.Neurons[0])
+            {
+                Console.WriteLine(" ===== Error: {0:F6}", neuron.DeltaErrors);
+                Console.WriteLine(" ===== Output: {0:F6}", neuron.NeuronSum);
+            }
         }
     }
 }
