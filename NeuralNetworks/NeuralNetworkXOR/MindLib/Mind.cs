@@ -192,10 +192,4 @@
             }
         }
     }
-
-    public enum ActivatorType
-    {
-        Sigmoid,
-        HTan
-    }
 }
