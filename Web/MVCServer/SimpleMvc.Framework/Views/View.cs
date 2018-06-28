@@ -53,7 +53,7 @@ namespace SimpleMvc.Framework.Views
                 var errorHtmlPath = this.GetErrorPath();
                 var errorHtml = File.ReadAllText(errorHtmlPath);
 
-                this.viewData.Add("error", "Requested view does no exist!");
+                this.viewData.Add("error", "Requested view does not exist!");
                 return errorHtml;
             }
 

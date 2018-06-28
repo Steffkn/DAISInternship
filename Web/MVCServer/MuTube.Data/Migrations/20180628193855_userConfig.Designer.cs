@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MuTube.Data;
 
 namespace MuTube.Data.Migrations
 {
     [DbContext(typeof(MuTubeContext))]
-    partial class MuTubeContextModelSnapshot : ModelSnapshot
+    [Migration("20180628193855_userConfig")]
+    partial class userConfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

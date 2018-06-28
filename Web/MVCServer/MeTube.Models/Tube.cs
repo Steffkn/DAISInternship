@@ -4,7 +4,6 @@
 
     public class Tube
     {
-        [Key]
         public int Id { get; set; }
 
         [Required]
