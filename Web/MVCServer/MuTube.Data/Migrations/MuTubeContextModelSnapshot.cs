@@ -7,7 +7,7 @@ using MuTube.Data;
 
 namespace MuTube.Data.Migrations
 {
-    [DbContext(typeof(MuTubeContext))]
+    [DbContext(typeof(MeTubeContext))]
     partial class MuTubeContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

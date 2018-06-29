@@ -9,7 +9,7 @@
     {
         public virtual IHttpResponse GetResponse(string message)
         {
-            return new RedirectResponse("/users/login");
+            return new UnauthorizedResponse(message);
         }
     }
 }

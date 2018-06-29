@@ -5,7 +5,7 @@ using System;
 
 namespace MuTube.Data
 {
-    public class MuTubeContext : DbContext
+    public class MeTubeContext : DbContext
     {
         public DbSet<User> Users { get; set; }
 

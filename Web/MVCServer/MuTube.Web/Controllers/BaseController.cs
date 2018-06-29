@@ -10,11 +10,11 @@
         protected const string TopMenuKey = "topMenu";
         protected BaseController()
         {
-            this.Context = new MuTubeContext();
+            this.Context = new MeTubeContext();
             this.Model.Data[ErrorKey] = string.Empty;
         }
 
-        protected MuTubeContext Context { get; private set; }
+        protected MeTubeContext Context { get; private set; }
 
         protected IActionResult RedirectToHome()
         {
@@ -53,6 +53,12 @@
             }
 
             base.OnAuthentication();
+        }
+
+        protected virtual IActionResult BuildErrorView()
+        {
+            this.Model.Data[ErrorKey] = "You have errors in the form!";
+            return this.View();
         }
     }
 }

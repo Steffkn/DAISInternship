@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\NewFolder\**" />
+    <EmbeddedResource Remove="Controllers\NewFolder\**" />
+    <None Remove="Controllers\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MuTube.Data\MuTube.Data.csproj" />
     <ProjectReference Include="..\SimpleMvc.Framework\SimpleMvc.Framework.csproj" />
     <ProjectReference Include="..\WebServer\WebServer.csproj" />
@@ -13,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Content\" />
-    <Folder Include="Controllers\NewFolder\" />
   </ItemGroup>
 
 </Project>

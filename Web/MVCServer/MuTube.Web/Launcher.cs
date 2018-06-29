@@ -9,7 +9,7 @@
     {
         static void Main()
         {
-            var context = new MuTubeContext();
+            var context = new MeTubeContext();
             var server = new WebServer(8000, new ControllerRouter(), new ResourceRouter());
             MvcEngine.Run(server, context);
         }

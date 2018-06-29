@@ -8,7 +8,7 @@ using MuTube.Data;
 
 namespace MuTube.Data.Migrations
 {
-    [DbContext(typeof(MuTubeContext))]
+    [DbContext(typeof(MeTubeContext))]
     [Migration("20180628193855_userConfig")]
     partial class userConfig
     {

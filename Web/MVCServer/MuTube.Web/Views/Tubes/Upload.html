@@ -1,0 +1,43 @@
+﻿<hr class="my-2" />
+<div class="text-center mb-3">
+    <h1>Upload</h1>
+</div>
+<hr class="my-2">
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="form-holder text-center">
+            {{{error}}}
+            <form class="form-inline" action="/tubes/upload" method="POST">
+                <fieldset>
+                    <div class="control-group mb-2">
+                        <label class="control-label h3 mb-2" for="Title">Title</label>
+                        <div class="controls">
+                            <input type="text" id="Title" name="Title" placeholder="" class="input-xlarge">
+                        </div>
+                    </div>
+                    <div class="control-group mb-2">
+                        <label class="control-label h3 mb-2" for="Author">Author</label>
+                        <div class="controls">
+                            <input type="text" id="Author" name="Author" placeholder="" class="input-xlarge">
+                        </div>
+                    </div>
+                    <div class="control-group mb-2">
+                        <label class="control-label h3 mb-2" for="YouTubeLink">Youtube link</label>
+                        <div class="controls">
+                            <input type="text" id="YouTubeLink" name="YouTubeLink" placeholder="https://www.youtube.com/watch?time_continue=1&v=L7JfXUDdDT4" class="input-xlarge">
+                        </div>
+                    </div>
+                    <div class="control-group mb-2">
+                        <label class="control-label h3 mb-2" for="Description">Description</label>
+                        <textarea id="Description" name="Description" placeholder="" class="input-xlarge" rows="3" cols="80"></textarea>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button class="btn btn-info">Upload</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
