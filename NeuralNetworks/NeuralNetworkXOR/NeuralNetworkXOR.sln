@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MindLib", "MindLib\MindLib.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Take3", "Take3\Take3.csproj", "{413C68EA-3D66-4A09-9EA0-21C117105846}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Тест", "Тест\Тест.csproj", "{ED5AFF08-2FFF-47B7-B57A-E9C186E7BC2C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SickOfNN", "SickOfNN\SickOfNN.csproj", "{C579BCC2-FAC8-4E57-A981-EDE07842CE68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{413C68EA-3D66-4A09-9EA0-21C117105846}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{413C68EA-3D66-4A09-9EA0-21C117105846}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{413C68EA-3D66-4A09-9EA0-21C117105846}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED5AFF08-2FFF-47B7-B57A-E9C186E7BC2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED5AFF08-2FFF-47B7-B57A-E9C186E7BC2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED5AFF08-2FFF-47B7-B57A-E9C186E7BC2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED5AFF08-2FFF-47B7-B57A-E9C186E7BC2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C579BCC2-FAC8-4E57-A981-EDE07842CE68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C579BCC2-FAC8-4E57-A981-EDE07842CE68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C579BCC2-FAC8-4E57-A981-EDE07842CE68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C579BCC2-FAC8-4E57-A981-EDE07842CE68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
