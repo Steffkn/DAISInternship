@@ -23,7 +23,7 @@
             }
         }
 
-        public float[] FeedForward(float[] inputs)
+        public double[] FeedForward(double[] inputs)
         {
             layers[0].FeedForward(inputs);
 
@@ -35,7 +35,7 @@
             return layers[layers.Length - 1].outputs;
         }
 
-        public void BackwardPropagation(float[] expected)
+        public void BackwardPropagation(double[] expected)
         {
             for (int i = layers.Length - 1; i >= 0; i--)
             {

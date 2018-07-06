@@ -8,43 +8,56 @@ namespace Nuts
         static void Main(string[] args)
         {
 
-            var inputs = new int[][]{
-                    new int[]{ 0, 0, 0 },
-                    new int[]{ 0, 0, 1 },
-                    new int[]{ 0, 1, 0 },
-                    new int[]{ 0, 1, 1 },
-                    new int[]{ 1, 0, 0 },
-                    new int[]{ 1, 0, 1 },
-                    new int[]{ 1, 1, 0 },
-                    new int[]{ 1, 1, 1 }
+            var inputs = new double[][]{
+                    new double[]{ 0, 0, 0 },
+                    new double[]{ 0, 0, 1 },
+                    new double[]{ 0, 1, 0 },
+                    new double[]{ 0, 1, 1 },
+                    new double[]{ 1, 0, 0 },
+                    new double[]{ 1, 0, 1 },
+                    new double[]{ 1, 1, 0 },
+                    new double[]{ 1, 1, 1 }
                 };
 
-            var outputs = new int[][] {
-                   new int[]{ 0 },
-                   new int[]{ 1 },
-                   new int[]{ 0 },
-                   new int[]{ 1 },
-                   new int[]{ 0 },
-                   new int[]{ 1 },
-                   new int[]{ 1 },
-                   new int[]{ 1 }
+            var outputs = new double[][] {
+                   new double[]{ 0 },
+                   new double[]{ 1 },
+                   new double[]{ 0 },
+                   new double[]{ 1 },
+                   new double[]{ 0 },
+                   new double[]{ 1 },
+                   new double[]{ 1 },
+                   new double[]{ 1 }
                 };
 
-            NeuralNetwork net = new NeuralNetwork(new int[] { 3, 25, 25, 1 });
+            int numberOfInputs = inputs[0].Length;
+            int numberOfOutputs = outputs[0].Length;
+            int[] numberOfNeurosInHiddenLayers = new int[] { 25, 25, };
+            int totalNumberOflayers = numberOfNeurosInHiddenLayers.Length + 2;
+
+            int[] inputInformation = new int[totalNumberOflayers];
+
+            for (int i = 1; i < totalNumberOflayers - 1; i++)
+            {
+                inputInformation[i] = numberOfNeurosInHiddenLayers[i - 1];
+            }
+            inputInformation[0] = numberOfInputs;
+            inputInformation[totalNumberOflayers - 1] = numberOfOutputs;
+            NeuralNetwork net = new NeuralNetwork(inputInformation);
 
             while (true)
             {
-                for (int i = 0; i < 5000; i++)
+                for (int i = 0; i < 10000; i++)
                 {
                     for (int dataRow = 0; dataRow < inputs.Length; dataRow++)
                     {
-                        var ins = new float[inputs[dataRow].Length];
+                        var ins = new double[inputs[dataRow].Length];
                         for (int dataCol = 0; dataCol < ins.Length; dataCol++)
                         {
                             ins[dataCol] = inputs[dataRow][dataCol];
                         }
 
-                        var expected = new float[outputs[dataRow].Length];
+                        var expected = new double[outputs[dataRow].Length];
                         for (int dataCol = 0; dataCol < expected.Length; dataCol++)
                         {
                             expected[dataCol] = outputs[dataRow][dataCol];
@@ -55,41 +68,39 @@ namespace Nuts
                     }
                 }
 
-                Console.Write("Enter 3 numbers for XOR:  ");
-                float[] values = Console.ReadLine()
-                    .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(float.Parse)
-                    .ToArray();
+                for (int i = 0; i < inputs.Length; i++)
+                {
+                    double[] result = net.FeedForward(inputs[i]);
 
+                    Console.WriteLine("Inputs  {0:f6}", string.Join(" ", inputs[i]));
+                    Console.WriteLine("Expects {0:f6}", string.Join(" ", outputs[i]));
+                    Console.WriteLine("\tResult \t{0:f6}", string.Join(" ", result));
+                    double[] errors = new double[outputs[i].Length];
 
-                var result = net.FeedForward(values);
-                Console.WriteLine("Result {0}", string.Join(" ", result));
+                    for (int errorIndex = 0; errorIndex < errors.Length; errorIndex++)
+                    {
+                        errors[errorIndex] = outputs[i][errorIndex] - result[errorIndex];
+                    }
+
+                    Console.WriteLine("\tError: \t{0:f6}", string.Join(" ", errors));
+                    Console.WriteLine();
+                }
+
+                Console.Write("Continue...");
+                HandTest(net);
             }
         }
 
-        public static double Sigmoid(double x)
+        private static void HandTest(NeuralNetwork net)
         {
-            return 1 / (1 + Math.Exp(-1 * x));
-        }
+            Console.Write("Enter 3 numbers for XOR:  ");
+            double[] values = Console.ReadLine()
+                .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(double.Parse)
+                .ToArray();
 
-        public static double DerivativeSigmoid(double x)
-        {
-            return x * (1 - x);
-        }
-
-        public static double TanH(double x)
-        {
-            return (2 / (1 + Math.Exp(-2 * x))) - 1;
-        }
-
-        public static double DerivativeTanH(double x)
-        {
-            return 1 - (x * x);
-        }
-
-        public static double ReLU(double x)
-        {
-            return Math.Max(0.0, x);
+            var result = net.FeedForward(values);
+            Console.WriteLine("Result {0}", string.Join(" ", result));
         }
     }
 }

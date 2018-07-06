@@ -9,30 +9,30 @@ namespace Nuts
         private int numberOfInputs;
         private int numberOfOutputs;
 
-        public float[] outputs;
-        private float[] inputs;
-        public float[,] weights;
-        private float[,] weightsDelta;
-        public float[] gamma;
-        private float[] error;
+        public double[] outputs;
+        private double[] inputs;
+        public double[,] weights;
+        private double[,] weightsDelta;
+        public double[] gamma;
+        private double[] error;
         private static Random rand = new Random();
-        private float LearningRate = 0.003f;
+        private double LearningRate = 0.033f;
 
         public Layer(int numberOfInputs, int numberOfOutputs)
         {
             this.numberOfInputs = numberOfInputs;
             this.numberOfOutputs = numberOfOutputs;
 
-            this.outputs = new float[numberOfOutputs];
-            this.inputs = new float[numberOfInputs];
-            this.weights = new float[numberOfOutputs, numberOfInputs];
-            this.weightsDelta = new float[numberOfOutputs, numberOfInputs];
-            this.gamma = new float[numberOfOutputs];
-            this.error = new float[numberOfOutputs];
+            this.outputs = new double[numberOfOutputs];
+            this.inputs = new double[numberOfInputs];
+            this.weights = new double[numberOfOutputs, numberOfInputs];
+            this.weightsDelta = new double[numberOfOutputs, numberOfInputs];
+            this.gamma = new double[numberOfOutputs];
+            this.error = new double[numberOfOutputs];
             this.InitRandomWeights();
         }
 
-        public float[] FeedForward(float[] inputs)
+        public double[] FeedForward(double[] inputs)
         {
             this.inputs = inputs;
 
@@ -56,7 +56,7 @@ namespace Nuts
             {
                 for (int j = 0; j < numberOfInputs; j++)
                 {
-                    weights[i, j] = (float)rand.NextDouble() - 0.5f;
+                    weights[i, j] = (double)rand.NextDouble() - 0.5f;
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace Nuts
             }
         }
 
-        public void BackwardPropagationOutput(float[] expected)
+        public void BackwardPropagationOutput(double[] expected)
         {
             for (int i = 0; i < numberOfOutputs; i++)
             {
@@ -93,7 +93,7 @@ namespace Nuts
             }
         }
 
-        public void BackwardPropagationHidden(float[] gammaForward, float[,] weightsForward)
+        public void BackwardPropagationHidden(double[] gammaForward, double[,] weightsForward)
         {
             for (int i = 0; i < numberOfOutputs; i++)
             {
@@ -116,14 +116,40 @@ namespace Nuts
             }
         }
 
-        public float TanH(float value)
+        public double TanH(double x)
         {
-            return (float)Math.Tanh(value);
+            return (2 / (1 + Math.Exp(-2 * x))) - 1;
         }
 
-        public float TanHDerivative(float value)
+        public double TanHDerivative(double value)
         {
             return 1 - (value * value);
+        }
+
+        public double Sigmoid(double x)
+        {
+            return 1 / (1 + Math.Exp(-1 * x));
+        }
+
+        public double DerivativeSigmoid(double x)
+        {
+            return x * (1 - x);
+        }
+
+
+        public double DerivativeTanH(double x)
+        {
+            return 1 - (x * x);
+        }
+
+        public static double ReLU(double x)
+        {
+            return Math.Max(0.0, x);
+        }
+
+        public static double DerivativeReLU(double x)
+        {
+            return x > 0 ? 1 : 0;
         }
     }
 }
