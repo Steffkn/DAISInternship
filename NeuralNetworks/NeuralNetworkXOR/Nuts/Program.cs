@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nuts.TransferFunctions;
+using System;
 using System.Linq;
 
 namespace Nuts
@@ -30,6 +31,8 @@ namespace Nuts
                    new double[]{ 1 }
                 };
 
+            ITransferFunction transferFunction = new TanHTransferFunction();
+
             int numberOfInputs = inputs[0].Length;
             int numberOfOutputs = outputs[0].Length;
             int[] numberOfNeurosInHiddenLayers = new int[] { 25, 25, };
@@ -43,7 +46,7 @@ namespace Nuts
             }
             inputInformation[0] = numberOfInputs;
             inputInformation[totalNumberOflayers - 1] = numberOfOutputs;
-            NeuralNetwork net = new NeuralNetwork(inputInformation);
+            NeuralNetwork net = new NeuralNetwork(inputInformation, transferFunction);
 
             while (true)
             {
@@ -74,7 +77,7 @@ namespace Nuts
 
                     Console.WriteLine("Inputs  {0:f6}", string.Join(" ", inputs[i]));
                     Console.WriteLine("Expects {0:f6}", string.Join(" ", outputs[i]));
-                    Console.WriteLine("\tResult \t{0:f6}", string.Join(" ", result));
+                    Console.WriteLine("Result  {0:f6}", string.Join(" ", result));
                     double[] errors = new double[outputs[i].Length];
 
                     for (int errorIndex = 0; errorIndex < errors.Length; errorIndex++)
@@ -82,12 +85,14 @@ namespace Nuts
                         errors[errorIndex] = outputs[i][errorIndex] - result[errorIndex];
                     }
 
-                    Console.WriteLine("\tError: \t{0:f6}", string.Join(" ", errors));
+                    Console.WriteLine("\tError: {00:f6}", string.Join(" ", errors));
                     Console.WriteLine();
                 }
 
                 Console.Write("Continue...");
-                HandTest(net);
+                Console.ReadKey();
+                Console.WriteLine(new String('=', 50));
+                Console.WriteLine();
             }
         }
 

@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Nuts.TransferFunctions;
+using System;
 
 namespace Nuts
 {
@@ -32,7 +31,7 @@ namespace Nuts
             this.InitRandomWeights();
         }
 
-        public double[] FeedForward(double[] inputs)
+        public double[] FeedForward(double[] inputs, ITransferFunction transferFunction)
         {
             this.inputs = inputs;
 
@@ -44,7 +43,7 @@ namespace Nuts
                     this.outputs[i] += this.inputs[j] * this.weights[i, j];
                 }
 
-                outputs[i] = this.TanH(outputs[i]);
+                outputs[i] = transferFunction.Activate(outputs[i]);
             }
 
             return this.outputs;
@@ -72,7 +71,7 @@ namespace Nuts
             }
         }
 
-        public void BackwardPropagationOutput(double[] expected)
+        public void BackwardPropagationOutput(double[] expected, ITransferFunction transferFunction)
         {
             for (int i = 0; i < numberOfOutputs; i++)
             {
@@ -81,7 +80,7 @@ namespace Nuts
 
             for (int i = 0; i < numberOfOutputs; i++)
             {
-                gamma[i] = error[i] * TanHDerivative(outputs[i]);
+                gamma[i] = error[i] * transferFunction.Derivative(outputs[i]);
             }
 
             for (int i = 0; i < numberOfOutputs; i++)
@@ -93,7 +92,7 @@ namespace Nuts
             }
         }
 
-        public void BackwardPropagationHidden(double[] gammaForward, double[,] weightsForward)
+        public void BackwardPropagationHidden(double[] gammaForward, double[,] weightsForward, ITransferFunction transferFunction)
         {
             for (int i = 0; i < numberOfOutputs; i++)
             {
@@ -104,7 +103,7 @@ namespace Nuts
                     gamma[i] += gamma[j] * weightsForward[j, i];
                 }
 
-                gamma[i] *= this.TanHDerivative(outputs[i]);
+                gamma[i] *= transferFunction.Derivative(outputs[i]);
             }
 
             for (int i = 0; i < numberOfOutputs; i++)
@@ -116,40 +115,40 @@ namespace Nuts
             }
         }
 
-        public double TanH(double x)
-        {
-            return (2 / (1 + Math.Exp(-2 * x))) - 1;
-        }
+        //public double TanH(double x)
+        //{
+        //    return (2 / (1 + Math.Exp(-2 * x))) - 1;
+        //}
 
-        public double TanHDerivative(double value)
-        {
-            return 1 - (value * value);
-        }
+        //public double TanHDerivative(double value)
+        //{
+        //    return 1 - (value * value);
+        //}
 
-        public double Sigmoid(double x)
-        {
-            return 1 / (1 + Math.Exp(-1 * x));
-        }
+        //public double Sigmoid(double x)
+        //{
+        //    return 1 / (1 + Math.Exp(-1 * x));
+        //}
 
-        public double DerivativeSigmoid(double x)
-        {
-            return x * (1 - x);
-        }
+        //public double DerivativeSigmoid(double x)
+        //{
+        //    return x * (1 - x);
+        //}
 
 
-        public double DerivativeTanH(double x)
-        {
-            return 1 - (x * x);
-        }
+        //public double DerivativeTanH(double x)
+        //{
+        //    return 1 - (x * x);
+        //}
 
-        public static double ReLU(double x)
-        {
-            return Math.Max(0.0, x);
-        }
+        //public static double ReLU(double x)
+        //{
+        //    return Math.Max(0.0, x);
+        //}
 
-        public static double DerivativeReLU(double x)
-        {
-            return x > 0 ? 1 : 0;
-        }
+        //public static double DerivativeReLU(double x)
+        //{
+        //    return x > 0 ? 1 : 0;
+        //}
     }
 }
